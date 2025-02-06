@@ -2,13 +2,15 @@ import express from 'express';
 import mongoose from 'mongoose';
 
 import userRouter from './router/user.mjs';
+import { loggingMiddleware } from './middleware/logging.mjs';
 
 const PORT =  process.env.PORT || 8080;
 
 const app = express();
 
 app.use(express.json());
-app.use(userRouter)
+app.use(loggingMiddleware)
+app.use("/api/users", userRouter);
 
 app.get('/', (request, response) => {
   response.status(200).send("Welcome to Express");
