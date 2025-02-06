@@ -1,0 +1,21 @@
+{
+  "name": "expressjs-workshop",
+  "version": "1.0.0",
+  "main": "index.mjs",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node ./src/index.mjs",
+    "start:dev": "nodemon ./src/index.mjs"
+  },
+  "author": "manishdait",
+  "license": "ISC",
+  "description": "A workshop for learning express-js",
+  "dependencies": {
+    "express": "^4.21.2",
+    "pg": "^8.13.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.9"
+  },
+  "type": "module"
+}
