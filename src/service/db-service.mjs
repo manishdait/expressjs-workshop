@@ -1,3 +1,4 @@
+/*
 import { pool } from "../database.mjs";
 
 const db = pool;
@@ -37,3 +38,4 @@ export async function updateUserById(id, user) {
 export async function deleteUserById(id) {
   await db.query(`delete from _user where id = ${id}`);
 }
+*/

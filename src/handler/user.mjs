@@ -1,7 +1,9 @@
-import { deleteUserById, findAllUsers, findUserById, saveUser, updateUserById } from "../service/db-service.mjs";
+// import { deleteUserById, findAllUsers, findUserById, saveUser, updateUserById } from "../service/db-service.mjs";
+
+import { User } from "../model/user-model.mjs";
 
 export async function getUsers(request, response) {
-  const users = await findAllUsers();
+  const users = await User.find();
 
   const { filter, value } = request.query;
   
@@ -14,69 +16,54 @@ export async function getUsers(request, response) {
 }
 
 export async function getUserById(request, response) {
-  const parseId = parseInt(request.params.id);
-  
-  if (isNaN(parseId)) {
-    return response.status(400).send('Bad Request, Invalid user id');
-  }
+  const parseId = request.params.id;
 
-  const user = await findUserById(parseId);
-
-  if (!user) {
-    return response.status(404).send('User not found');
+  try {
+    const user = await User.findById(parseId);
+    if (!user) {
+      return response.status(404).send('User not found');
+    }
+    response.status(200).send(user);
+  } catch (err) {
+    return response.status(400).send('Bad Request');
   }
-  response.status(200).send(user);
 }
 
 export async function addUser(request, response) {
-  if (!validRequest(request)) {
-    return response.status(400).send("Bad Request")
-  }
-
-  const { username, displayName } = request.body;
-
-  const user = await saveUser({username: username, displayName: displayName});
+  const user = await User.insertOne(request.body);
   response.status(201).send(user)
 }
 
 export async function updateUser(request, response) {
-  if (!validRequest(request)) {
-    return response.status(400).send("Bad Request, Invalid parameters")
+  const parseId = request.params.id;
+
+  try {
+    const user = await User.findById(parseId);
+    if (!user) {
+      return response.status(404).send('User not found');
+    }
+    await User.updateOne({_id:parseId}, {"$set":{username:request.body.username, displayName:request.body.displayName}});
+    const updatedUser = await User.findById(parseId);
+    response.status(200).send(updatedUser)
+  } catch (err) {
+    console.log(err);
+    
+    return response.status(400).send('Bad Request');
   }
-
-  const { username, displayName } = request.body;
-  const parseId = parseInt(request.params.id);
-
-  if (isNaN(parseId)) {
-    return response.status(400).send('Bad Request, Invalid user id');
-  }
-
-  const user = await findUserById(parseId);
-  if (!user) {
-    return response.status(404).send('User not found');
-  }
-
-  const updatedUser = await updateUserById(parseId, {username: username, displayName: displayName})
-  
-  response.status(200).send(updatedUser)
 }
 
 export async function deleteUser(request, response) {
-  const parseId = parseInt(request.params.id);
+  const parseId = request.params.id;
 
-  if (isNaN(parseId)) {
-    return response.status(400).send('Bad Request, Invalid user id');
+  try {
+    await User.findByIdAndDelete(parseId);
+    response.status(200).send();
+  } catch (err) {
+    response.status(400).send();
   }
-
-  const user = await findUserById(parseId);
-  if (!user) {
-    return response.status(404).send('User not found');
-  }
-
-  await deleteUserById(parseId);
-  response.status(200).send()
 }
 
+/*
 function validRequest(request) {
   const { username, displayName } = request.body;
 
@@ -85,3 +72,4 @@ function validRequest(request) {
   }
   return true;
 }
+*/

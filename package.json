@@ -12,6 +12,8 @@
   "description": "A workshop for learning express-js",
   "dependencies": {
     "express": "^4.21.2",
+    "mongodb": "^6.13.0",
+    "mongoose": "^8.10.0",
     "pg": "^8.13.1"
   },
   "devDependencies": {

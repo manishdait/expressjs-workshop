@@ -1,16 +1,26 @@
 services:
-  postgres_db:
-    container_name: postgres_db
-    image: postgres:alpine
-    ports:
-      - 5432:5432
-    environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=password
-      - POSTGRES_DB=pg_db
-    volumes:
-      - data:/var/lib/postgresql/data
-      - ./sql:/docker-entrypoint-initdb.d
+  # postgres_db:
+  #   container_name: postgres_db
+  #   image: postgres:alpine
+  #   ports:
+  #     - 5432:5432
+  #   environment:
+  #     - POSTGRES_USER=postgres
+  #     - POSTGRES_PASSWORD=password
+  #     - POSTGRES_DB=pg_db
+  #   volumes:
+  #     - data:/var/lib/postgresql/data
+  #     - ./sql:/docker-entrypoint-initdb.d
+
+    mongo_db:
+      container_name: mongo_db
+      image: mongo
+      ports: 
+        - 27017:27017
+      environment:
+        - MONGO_INITDB_ROOT_USERNAME=root
+        - MONGO_INITDB_ROOT_PASSWORD=password
+        - MONGO_INITDB_DATABASE=pg_db
 
 volumes:
   data: {}
