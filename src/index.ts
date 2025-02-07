@@ -1,8 +1,8 @@
 import express from 'express';
 import mongoose from 'mongoose';
 
-import userRouter from './router/user.mjs';
-import { loggingMiddleware } from './middleware/logging.mjs';
+import userRouter from './router/user';
+import { loggingMiddleware } from './middleware/logging';
 
 const PORT =  process.env.PORT || 8080;
 

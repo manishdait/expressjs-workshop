@@ -1,5 +1,5 @@
 import router from 'express';
-import { addUser, deleteUser, getUserById, getUsers, updateUser } from '../handler/user.mjs';
+import { addUser, deleteUser, getUserById, getUsers, updateUser } from '../handler/user';
 
 const userRouter = router();
 
